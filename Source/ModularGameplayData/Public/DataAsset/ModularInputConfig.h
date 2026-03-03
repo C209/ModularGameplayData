@@ -52,4 +52,12 @@ public:
 	 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (TitleProperty = "InputAction"))
 	TArray<FModularInputConfigAction> AbilityInputActions;
+	
+	/**
+	 * Input actions mapped to a gameplay event.
+	 *
+	 * These are automatically bound to GameplayEvents triggered by matching input tags.
+	 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (TitleProperty = "InputAction"))
+	TArray<FModularInputConfigAction> GameplayEventInputActions;
 };

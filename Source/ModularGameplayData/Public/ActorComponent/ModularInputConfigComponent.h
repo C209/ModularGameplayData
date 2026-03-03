@@ -43,6 +43,12 @@ public:
 		PressedFuncType PressedFunc,
 		ReleasedFuncType ReleasedFunc,
 		TArray<uint32>& BindHandles);
+	
+	template<class UserClass, typename FuncType>
+	void BindGameplayEventActions(const UModularInputConfig* InputConfig,
+		UserClass* Object,
+		FuncType Func,
+		TArray<uint32>& BindHandles);
 
 	void RemoveBinds(TArray<uint32>& BindHandles);
 };
@@ -84,6 +90,24 @@ void UModularInputConfigComponent::BindAbilityActions(const UModularInputConfig*
 			if (ReleasedFunc)
 			{
 				BindHandles.Add(BindAction(InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, InputTag).GetHandle());
+			}
+		}
+	}
+}
+
+template <class UserClass, typename FuncType>
+void UModularInputConfigComponent::BindGameplayEventActions(const UModularInputConfig* InputConfig,
+	UserClass* Object, FuncType Func, TArray<uint32>& BindHandles)
+{
+	check(InputConfig);
+
+	for (const auto& [InputAction, InputTag] : InputConfig->GameplayEventInputActions)
+	{
+		if (InputAction && InputTag.IsValid())
+		{
+			if (Func)
+			{
+				BindHandles.Add(BindAction(InputAction, ETriggerEvent::Triggered, Object, Func, InputTag).GetHandle());
 			}
 		}
 	}
